@@ -1,0 +1,10 @@
+version: "3"
+
+tasks:
+  dev:
+    cmds:
+      - bun dev & air
+  build:
+    cmds:
+      - bun run build
+      - go build -ldflags "-s -w" -tags=prod -o ./build/server .

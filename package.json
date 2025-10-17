@@ -1,0 +1,22 @@
+{
+  "name": "pacis-app",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.14",
+    "@types/alpinejs": "^3.13.11",
+    "alpinejs": "^3.15.0",
+    "firebase": "^12.4.0",
+    "vite": "^7.1.9"
+  }
+}
