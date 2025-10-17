@@ -34,8 +34,6 @@ COPY --from=frontend-build /web/build ./build
 
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags "-s -w" -tags=prod -o server .
 
-RUN apk add --no-cache upx && upx --best --lzma ./server
-
 FROM scratch
 
 COPY --from=backend-build /app/server /server

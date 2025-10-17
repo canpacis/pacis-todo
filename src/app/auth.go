@@ -1,13 +1,16 @@
 package app
 
 import (
+	"context"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"time"
 
 	firebase "firebase.google.com/go/v4"
 	. "github.com/canpacis/pacis/html"
 	"github.com/canpacis/pacis/lucide"
+	"github.com/canpacis/pacis/server"
 	"github.com/canpacis/pacis/server/metadata"
 	"github.com/canpacis/pacis/x"
 )
@@ -20,11 +23,25 @@ func (*Login) Metadata() *metadata.Metadata {
 	}
 }
 
+type LoginPayload struct {
+	Token string `cookie:"token"`
+}
+
 func (*Login) Page() Node {
 	return Div(
 		Class("w-screen h-screen flex flex-col gap-2 items-center justify-center"),
 		Attr("x-data", "auth"),
 
+		Component(func(ctx context.Context) Node {
+			payload, err := server.Data[LoginPayload](ctx)
+			if err != nil {
+				return Fragment()
+			}
+			if len(payload.Token) != 0 {
+				return server.Redirect(ctx, "/")
+			}
+			return Fragment()
+		}),
 		lucide.GalleryVerticalEnd(Class("size-6")),
 		H1(
 			Class("font-semibold text-xl mb-4"),
@@ -93,5 +110,6 @@ func (a *Authenticator) Authenticate(r *http.Request) (any, error) {
 }
 
 func (*Authenticator) OnError(w http.ResponseWriter, r *http.Request, err error) {
+	slog.Error("Auth error", "error", err)
 	http.Redirect(w, r, "/login", http.StatusFound)
 }

@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"log"
-	"os"
 
 	firebase "firebase.google.com/go/v4"
 	"github.com/canpacis/pacis-app/src/app"
@@ -18,11 +17,7 @@ var options *server.Options
 func main() {
 	godotenv.Load()
 
-	key, err := os.ReadFile("account-key.json")
-	if err != nil {
-		log.Fatal(err)
-	}
-	fbapp, err := firebase.NewApp(context.Background(), nil, option.WithCredentialsJSON(key))
+	fbapp, err := firebase.NewApp(context.Background(), nil, option.WithCredentialsJSON(credentials))
 	if err != nil {
 		log.Fatal(err)
 	}

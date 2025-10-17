@@ -27,10 +27,10 @@ func (*Home) Metadata() *metadata.Metadata {
 
 func (h *Home) Page() Node {
 	return Main(
-		Class("bg-neutral-50 w-screen min-h-screen flex justify-center py-8"),
+		Class("bg-neutral-50 w-screen min-h-screen flex justify-center py-0 md:py-8"),
 
 		Div(
-			Class("max-w-md w-full h-fit p-6 flex flex-col gap-4"),
+			Class("md:max-w-md w-full h-fit p-6 flex flex-col gap-4"),
 
 			Component(Profile),
 			TodoForm(),
