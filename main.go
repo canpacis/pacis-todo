@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	"encoding/base64"
 	"log"
+	"os"
 
 	firebase "firebase.google.com/go/v4"
 	"github.com/canpacis/pacis-app/src/app"
@@ -17,7 +19,11 @@ var options *server.Options
 func main() {
 	godotenv.Load()
 
-	fbapp, err := firebase.NewApp(context.Background(), nil, option.WithCredentialsJSON(credentials))
+	creds, err := base64.StdEncoding.DecodeString(os.Getenv("FIREBASE_CREDS"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	fbapp, err := firebase.NewApp(context.Background(), nil, option.WithCredentialsJSON(creds))
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -25,8 +25,6 @@ var (
 	build embed.FS
 	//go:embed build/static/.vite
 	vite embed.FS
-	//go:embed account-key.json
-	credentials []byte
 )
 
 func Ready(s *server.Server) {
