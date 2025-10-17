@@ -34,8 +34,12 @@ COPY --from=frontend-build /web/build ./build
 
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags "-s -w" -tags=prod -o server .
 
+FROM alpine:3.20 AS certs
+RUN apk add --no-cache ca-certificates
+
 FROM scratch
 
+COPY --from=certs /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=backend-build /app/server /server
 
 EXPOSE 8080
